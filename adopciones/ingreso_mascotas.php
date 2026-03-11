@@ -1,0 +1,136 @@
+<?php
+session_start();
+include("../conexion.php");
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] != "SÍ") {
+  echo "<script>alert('Acceso denegado.'); window.location.href='index.php';</script>";
+  exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingreso de Mascotas - MascotAR</title>
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<?php include("../header.php"); ?>
+
+<section class="register">
+  <div class="full-form-container">
+    <h2 class="ingreso">Panel de Administración - Ingreso de Mascotas</h2>
+    <form action="procesar_mascota.php" method="post" class="form-grid">
+
+      <!-- DATOS BÁSICOS -->
+      <h3>Datos de la Mascota</h3>
+      <label>Nombre:</label>
+      <input type="text" name="pet_name" required>
+
+      <label>Especie:</label>
+      <select name="pet_species" required>
+        <option value="1">Perro</option>
+        <option value="2">Gato</option>
+        <option value="3">Tortuga</option>
+        <option value="4">Canario</option>
+      </select>
+
+      <label>Raza:</label>
+      <input type="text" name="pet_breed">
+
+      <label>Sexo:</label>
+      <select name="pet_sex" required>
+        <option value="1">Macho</option>
+        <option value="2">Hembra</option>
+      </select>
+
+      <label>Edad:</label>
+      <select name="pet_age" required>
+        <option value="1">Cachorro</option>
+        <option value="2">Adulto</option>
+      </select>
+
+      <label>Color 1:</label>
+      <select name="pet_color1" required>
+        <option value="1">Blanco</option>
+        <option value="2">Negro</option>
+        <option value="3">Marrón</option>
+        <option value="4">Amarillo</option>
+        <option value="5">Naranja</option>
+        <option value="6">Gris</option>
+        <option value="7">Otros</option>
+      </select>
+
+      <label>Color 2 (opcional):</label>
+      <select name="pet_color2">
+        <option value="">Ninguno</option>
+        <option value="1">Blanco</option>
+        <option value="2">Negro</option>
+        <option value="3">Marrón</option>
+        <option value="4">Amarillo</option>
+        <option value="5">Naranja</option>
+        <option value="6">Gris</option>
+        <option value="7">Otros</option>
+      </select>
+
+      <label>Link de la foto:</label>
+      <input type="url" name="pet_photo" placeholder="https://ejemplo.com/foto.jpg" required>
+
+      <!-- HISTORIAL MÉDICO -->
+      <h3>Historial Médico</h3>
+      <?php
+        $vacunas = ['vax_moq' => 'Moquillo','vax_parvo' => 'Parvovirus','vax_rab' => 'Rabia','vax_lepto' => 'Leptospirosis','vax_hep' => 'Hepatitis','vax_rino' => 'Rinotraqueítis','vax_calci' => 'Calicivirus','vax_panleuc' => 'Panleucopenia'];
+        foreach ($vacunas as $name => $label) {
+          echo "<label>$label:</label>
+                <select name='$name' required>
+                  <option value='SÍ'>SÍ</option>
+                  <option value='NO'>NO</option>
+                </select>";
+        }
+      ?>
+
+      <label>Castrado/esterilizado:</label>
+      <select name="neut" required>
+        <option value="SÍ">SÍ</option>
+        <option value="NO">NO</option>
+      </select>
+
+      <label>Desparasitado:</label>
+      <select name="paras" required>
+        <option value="SÍ">SÍ</option>
+        <option value="NO">NO</option>
+      </select>
+
+      <!-- DISCAPACIDADES -->
+      <h3>Discapacidades</h3>
+      <label>Ceguera:</label>
+      <select name="disabl_blind" required>
+        <option value="NO">NO</option>
+        <option value="SÍ">SÍ</option>
+      </select>
+
+      <label>Sordera:</label>
+      <select name="disabl_deaf" required>
+        <option value="NO">NO</option>
+        <option value="SÍ">SÍ</option>
+      </select>
+
+      <label>Cojera:</label>
+      <select name="disabl_limp" required>
+        <option value="NO">NO</option>
+        <option value="SÍ">SÍ</option>
+      </select>
+
+      <button type="submit">Registrar Mascota</button>
+    </form>
+  </div>
+</section>
+
+<?php include("../footer.php"); ?>
+
+</body>
+</html>
